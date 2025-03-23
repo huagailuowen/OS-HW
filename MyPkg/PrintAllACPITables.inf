@@ -1,0 +1,26 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = PrintAllACPITables
+  FILE_GUID                      = aba678a3-d32f-4f19-a7bd-e6a988ca3895
+  MODULE_TYPE                    = UEFI_APPLICATION 
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = PrintAllACPITables
+
+[Sources]
+  PrintAllACPITables.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  BaseLib
+  PrintLib
+  UefiLib
+  UefiBootServicesTableLib
+  BaseMemoryLib
+
+  
+[Guids]
+  gEfiAcpiTableGuid
+  gEfiAcpi20TableGuid

@@ -1,0 +1,26 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = ChangeACPITables
+  FILE_GUID                      = bdc81f6a-f5a5-4476-9a31-afdf0ce7f4b7
+  MODULE_TYPE                    = UEFI_APPLICATION 
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = ChngeACPITable
+
+[Sources]
+  ChangeACPITables.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  BaseLib
+  PrintLib
+  UefiLib
+  UefiBootServicesTableLib
+  BaseMemoryLib
+
+  
+[Guids]
+  gEfiAcpiTableGuid
+  gEfiAcpi20TableGuid
