@@ -109,6 +109,7 @@
 
 #define CREATE_TRACE_POINTS
 #include <trace/events/task.h>
+#include "linux/kv_store.h"
 
 /*
  * Minimum number of threads to boot the kernel
@@ -1949,7 +1950,6 @@ static __latent_entropy struct task_struct *copy_process(
 	struct file *pidfile = NULL;
 	u64 clone_flags = args->flags;
 	struct nsproxy *nsp = current->nsproxy;
-
 	/*
 	 * Don't allow sharing the root directory with processes in a different
 	 * namespace
@@ -2296,6 +2296,8 @@ static __latent_entropy struct task_struct *copy_process(
 #ifdef CONFIG_KRETPROBES
 	p->kretprobe_instances.first = NULL;
 #endif
+
+	kv_store_init(p);
 
 	/*
 	 * Ensure that the cgroup subsystem policies allow the new process to be
@@ -3041,7 +3043,7 @@ static int unshare_fd(unsigned long unshare_flags, struct files_struct **new_fdp
 /*
  * unshare allows a process to 'unshare' part of the process
  * context which was originally shared using clone.  copy_*
- * functions used by kernel_clone() cannot be used here directly
+ * functions used by () cannot be used here directly
  * because they modify an inactive task_struct that is being
  * constructed. Here we are modifying the current, active,
  * task_struct.

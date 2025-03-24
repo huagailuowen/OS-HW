@@ -1279,6 +1279,10 @@ asmlinkage long sys_old_mmap(struct mmap_arg_struct __user *arg);
  */
 asmlinkage long sys_ni_syscall(void);
 
+asmlinkage long sys_write_kv(int k, int v);
+asmlinkage long sys_read_kv(int k);
+
+
 #endif /* CONFIG_ARCH_HAS_SYSCALL_WRAPPER */
 
 

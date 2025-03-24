@@ -1491,6 +1491,11 @@ struct task_struct {
 	 */
 	randomized_struct_fields_end
 
+	struct {
+        struct hlist_head kv_store[1024];
+        spinlock_t kv_locks[1024];
+    } kv_data;
+	
 	/* CPU-specific state of this task: */
 	struct thread_struct		thread;
 

@@ -69,6 +69,7 @@
 #include <linux/uaccess.h>
 #include <asm/unistd.h>
 #include <asm/mmu_context.h>
+#include "linux/kv_store.h"
 
 /*
  * The default value should be high enough to not crash a system that randomly

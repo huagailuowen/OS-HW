@@ -1,0 +1,4 @@
+/initramfs_work
+/rootfs
+initramfs.cpio.gz
+rootfs.img
