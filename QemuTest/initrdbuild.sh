@@ -7,7 +7,7 @@ cd ./initramfs_work
 # cd extracted
 # cat ../initramfs.cpio | cpio -idmv
 # cd ..
-cp -r ../../Syscall/kv_call/* extracted/testfiles
+cp -r ../../FS/Task1/test_read extracted/testfiles
 
 # 回到解压目录
 cd extracted
