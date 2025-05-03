@@ -23,6 +23,9 @@
 #endif
 
 /* Namespaces */
+#define XATTR_CUSTOM_PREFIX "custom."
+#define XATTR_CUSTOM_PREFIX_LEN (sizeof(XATTR_CUSTOM_PREFIX)-1)
+
 #define XATTR_OS2_PREFIX "os2."
 #define XATTR_OS2_PREFIX_LEN (sizeof(XATTR_OS2_PREFIX) - 1)
 
