@@ -623,12 +623,20 @@ struct fsnotify_mark_connector;
  * the RCU path lookup and 'stat' data) fields at the beginning
  * of the 'struct inode'
  */
+struct xattr_entry {
+    char *key;           // 属性名称
+    char *value;         // 属性值 
+    size_t value_len;    // 值的长度
+    struct xattr_entry *next;  // 链表结构
+};
+
 struct inode {
 	umode_t			i_mode;
 	unsigned short		i_opflags;
 	kuid_t			i_uid;
 	kgid_t			i_gid;
 	unsigned int		i_flags;
+	struct xattr_entry *xattrs; // 扩展属性链表
 
 #ifdef CONFIG_FS_POSIX_ACL
 	struct posix_acl	*i_acl;

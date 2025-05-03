@@ -27,21 +27,11 @@ VERSION {
 		__vdso_time;
 		clock_getres;
 		__vdso_clock_getres;
+		__vdso_get_task_info;
 #ifdef CONFIG_X86_SGX
 		__vdso_sgx_enter_enclave;
 #endif
 	local: *;
 	};
 }
-VERSION {
-    LINUX_2.6 {
-        global:
-            clock_gettime;
-            __vdso_clock_gettime;
-            ...
-            
-            /* 添加新函数 */
-            __vdso_get_task_info;
-        local: *;
-    };
-}
+

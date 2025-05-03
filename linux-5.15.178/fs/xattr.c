@@ -80,10 +80,14 @@ xattr_resolve_name(struct inode *inode, const char **name)
 	return ERR_PTR(-EOPNOTSUPP);
 }
 
+
+
 /*
  * Check permissions for extended attribute access.  This is a bit complicated
  * because different namespaces have very different rules.
  */
+
+ 
 static int
 xattr_permission(struct user_namespace *mnt_userns, struct inode *inode,
 		 const char *name, int mask)
@@ -103,6 +107,14 @@ xattr_permission(struct user_namespace *mnt_userns, struct inode *inode,
 		if (HAS_UNMAPPED_ID(mnt_userns, inode))
 			return -EPERM;
 	}
+
+	// custom xattr namespace
+	if (!strncmp(name, XATTR_CUSTOM_PREFIX, XATTR_CUSTOM_PREFIX_LEN)) {
+        // 自定义命名空间的权限检查
+        if (!capable(CAP_SYS_ADMIN))
+            return (mask & MAY_WRITE) ? -EPERM : -ENODATA;
+        return 0;
+    }
 
 	/*
 	 * No restriction for security.* and system.* from the VFS.  Decision

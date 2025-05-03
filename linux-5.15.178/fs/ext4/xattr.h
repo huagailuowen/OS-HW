@@ -26,7 +26,8 @@
 #define EXT4_XATTR_INDEX_RICHACL		8
 #define EXT4_XATTR_INDEX_ENCRYPTION		9
 #define EXT4_XATTR_INDEX_HURD			10 /* Reserved for Hurd */
-
+/* 现有的定义包括: EXT4_XATTR_INDEX_USER, EXT4_XATTR_INDEX_TRUSTED 等 */
+#define EXT4_XATTR_INDEX_CUSTOM      11  /* 选择一个未使用的编号 */
 struct ext4_xattr_header {
 	__le32	h_magic;	/* magic number for identification */
 	__le32	h_refcount;	/* reference count */

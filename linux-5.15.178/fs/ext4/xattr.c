@@ -62,58 +62,35 @@
 #include "xattr.h"
 #include "acl.h"
 
-// 如果需要为新的命名空间添加特定的处理函数
+//------------------------------myxattr------------------------------
+
 static int
-custom_xattr_get(struct dentry *dentry, const char *name, 
-                void *buffer, size_t size, int type)
+ext4_xattr_custom_get(const struct xattr_handler *handler,
+                      struct dentry *dentry, struct inode *inode,
+                      const char *name, void *buffer, size_t size)
 {
-    // 自定义命名空间属性的获取逻辑
-    // ...
-    return size;
+    return ext4_xattr_get(inode, EXT4_XATTR_INDEX_CUSTOM, name, buffer, size);
 }
 
 static int
-custom_xattr_set(struct user_namespace *mnt_userns, struct dentry *dentry,
-                const char *name, const void *value, size_t size, 
-                int flags, int type)
+ext4_xattr_custom_set(const struct xattr_handler *handler,
+                      struct user_namespace *mnt_userns,
+                      struct dentry *dentry, struct inode *inode,
+                      const char *name, const void *value,
+                      size_t size, int flags)
 {
-    // 自定义命名空间属性的设置逻辑
-    // ...
-    return 0;
+    return ext4_xattr_set(inode, EXT4_XATTR_INDEX_CUSTOM, name, value, size, flags);
 }
 
-static const struct xattr_handler custom_xattr_handler = {
+
+
+static const struct xattr_handler ext4_xattr_custom_handler = {
     .prefix = XATTR_CUSTOM_PREFIX,
-    .get = custom_xattr_get,
-    .set = custom_xattr_set,
-};
-// 然后确保在文件系统初始化时注册此处理程序
-static const struct xattr_handler *my_fs_xattr_handlers[] = {
-    &custom_xattr_handler,
-    // 其他已支持的处理程序...
-    NULL
+    .get    = ext4_xattr_custom_get,
+    .set    = ext4_xattr_custom_set,
 };
 
-// 初始化 inode 的扩展属性支持
-void my_fs_init_inode_xattrs(struct inode *inode)
-{
-    INIT_LIST_HEAD(&inode->xattrs);
-    spin_lock_init(&inode->xattr_lock);
-}
-
-// 在磁盘上存储扩展属性的方法（取决于文件系统的存储方式）
-int my_fs_save_xattrs(struct inode *inode)
-{
-    // 例如，存储到专用块，或内联于 inode 等
-    // ...
-}
-
-// 从磁盘加载扩展属性的方法
-int my_fs_load_xattrs(struct inode *inode)
-{
-    // 例如，从磁盘读取扩展属性并填充 inode->xattrs
-    // ...
-}
+//------------------------------myxattr------------------------------
 
 #ifdef EXT4_XATTR_DEBUG
 # define ea_idebug(inode, fmt, ...)					\
@@ -147,11 +124,15 @@ static const struct xattr_handler * const ext4_xattr_handler_map[] = {
 	[EXT4_XATTR_INDEX_SECURITY]	     = &ext4_xattr_security_handler,
 #endif
 	[EXT4_XATTR_INDEX_HURD]		     = &ext4_xattr_hurd_handler,
+	[EXT4_XATTR_INDEX_CUSTOM]        = &ext4_xattr_custom_handler,  /* 添加这一行 */
 };
+
+
 
 const struct xattr_handler *ext4_xattr_handlers[] = {
 	&ext4_xattr_user_handler,
 	&ext4_xattr_trusted_handler,
+	&ext4_xattr_custom_handler,  /* 添加这一行 */
 #ifdef CONFIG_EXT4_FS_POSIX_ACL
 	&posix_acl_access_xattr_handler,
 	&posix_acl_default_xattr_handler,

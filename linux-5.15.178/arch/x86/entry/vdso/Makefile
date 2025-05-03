@@ -28,6 +28,7 @@ vobjs-y := vdso-note.o vclock_gettime.o vgetcpu.o
 vobjs32-y := vdso32/note.o vdso32/system_call.o vdso32/sigreturn.o
 vobjs32-y += vdso32/vclock_gettime.o
 vobjs-$(CONFIG_X86_SGX)	+= vsgx.o
+vobjs-$(CONFIG_VDSO_TASK_INFO) += vdso_get_task_info.o
 
 CFLAGS_vdso_get_task_info.o = -fPIC
 
