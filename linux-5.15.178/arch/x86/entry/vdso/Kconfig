@@ -1,0 +1,6 @@
+config VDSO_TASK_INFO
+    bool "Enable task_info in vDSO"
+    depends on VDSO
+    help
+      This enables a vDSO function that allows userspace to get
+      current task information without a system call.
