@@ -8,7 +8,9 @@ cd ./initramfs_work
 # cat ../initramfs.cpio | cpio -idmv
 # cd ..
 # cp -r ../../FS/Task1/test_read extracted/testfiles
-cp -r /home/luowen/syshw/Net/Task1/tcpdump/tcpdump extracted/testfiles
+cp  /home/luowen/syshw/Net/Task1/client extracted/testfiles
+cp  /home/luowen/syshw/Net/Task1/server extracted/testfiles
+
 # 回到解压目录
 cd extracted
 
