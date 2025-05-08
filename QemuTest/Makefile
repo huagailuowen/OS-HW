@@ -1,3 +1,4 @@
+OVMF_DIR = /home/luowen/software/edk2/Build/OvmfX64/DEBUG_GCC5/FV
 QEMU_TEST_DIR = $(PWD)
 LINUX_DIR = ./../linux-5.15.178
 
@@ -28,3 +29,11 @@ ext4-image:
 # 	-append "init=/init root=/dev/sda rw console=ttyS0 nokaslr" \
 # 	-nographic \
 # 	-m 4G
+run-uefi:
+	cp /home/luowen/software/edk2/Build/MyPkg/DEBUG_GCC5/X64/MyPkg/RuntimeInfoDxe/RuntimeInfoDxe/OUTPUT/RuntimeInfoDxe.efi ./uefi
+	qemu-system-x86_64 \
+			-nographic \
+			-m 4G \
+			-drive if=pflash,format=raw,unit=0,file="$(OVMF_DIR)/OVMF_CODE.fd",readonly=on \
+			-drive if=pflash,format=raw,unit=1,file="$(OVMF_DIR)/OVMF_VARS.fd" \
+			-drive file=fat:rw:./uefi,format=raw,if=ide,index=0 \

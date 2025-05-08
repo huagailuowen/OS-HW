@@ -5,7 +5,7 @@
     DSC_SPECIFICATION       = 0x00010005
     SUPPORTED_ARCHITECTURES = X64
     BUILD_TARGETS           = DEBUG|RELEASE
-
+    OUTPUT_DIRECTORY        = Build/MyPkg
     
 
 
@@ -31,11 +31,12 @@
     DebugPrintErrorLevelLib|MdePkg/Library/BaseDebugPrintErrorLevelLib/BaseDebugPrintErrorLevelLib.inf
     StackCheckLib|MdePkg/Library/StackCheckLib/StackCheckLib.inf
     StackCheckFailureHookLib|MdePkg/Library/StackCheckFailureHookLibNull/StackCheckFailureHookLibNull.inf
-
-
+    UefiDriverEntryPoint|MdePkg/Library/UefiDriverEntryPoint/UefiDriverEntryPoint.inf
+    UefiRuntimeLib|MdePkg/Library/UefiRuntimeLib/UefiRuntimeLib.inf
 [Components]
-    MyPkg/PrintAllACPITables.inf
+    # MyPkg/PrintAllACPITables.inf
+    MyPkg/RuntimeInfoDxe/RuntimeInfoDxe.inf
 
-[Guids]
-  gEfiAcpiTableGuid
-  gEfiAcpi20TableGuid
+# [Guids]
+#   gEfiAcpiTableGuid
+#   gEfiAcpi20TableGuid

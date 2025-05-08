@@ -1,0 +1,32 @@
+[Defines]
+  INF_VERSION                    = 0x0001001A
+  BASE_NAME                      = RuntimeInfoDxe
+  FILE_GUID                      = AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE
+  MODULE_TYPE                    = DXE_RUNTIME_DRIVER  # 改为运行时驱动
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = RuntimeInfoEntryPoint
+[Sources]
+  RuntimeInfoDxe.c
+
+[Packages]
+  MyPkg/MyPkg.dec
+  MdePkg/MdePkg.dec
+
+[LibraryClasses]
+  UefiDriverEntryPoint
+  UefiBootServicesTableLib
+  UefiLib
+  DebugLib
+  MemoryAllocationLib
+  BaseMemoryLib
+  UefiRuntimeServicesTableLib 
+  UefiRuntimeLib 
+[Protocols]
+  gMyRuntimeInfoProtocolGuid
+[Guids]
+  gEfiGlobalVariableGuid 
+[Depex]
+  TRUE
+[BuildOptions]
+  # 确保驱动程序具有正确的位置独立代码设置
+  MSFT:*_*_*_DLINK_FLAGS = /SUBSYSTEM:CONSOLE

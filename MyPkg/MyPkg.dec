@@ -1,0 +1,13 @@
+[Defines]
+  DEC_SPECIFICATION              = 0x0001001A
+  PACKAGE_NAME                   = MyPkg
+  PACKAGE_UNI_FILE               = MyPkg.uni
+  PACKAGE_GUID                   = 11111111-2222-3333-4444-555555555555
+  PACKAGE_VERSION                = 1.0
+  
+[Includes]
+  Include
+# [Guids]
+#   gMyRuntimeInfoProtocolGuid 
+[Protocols]
+  gMyRuntimeInfoProtocolGuid = { 0x12345678, 0x9abc, 0xdef0, { 0x12, 0x34, 0x56, 0x78, 0xab, 0xcd, 0xef, 0x00 } }
