@@ -1,12 +1,13 @@
-## Qemu Scripts
+## Qemu Test Environment
 
-```
-# 创建磁盘镜像 (例如100MB)
-dd if=/dev/zero of=rootfs.img bs=1M count=100
+open the QemuTest directory and run make code to build the test environment.
 
-# 创建 ext4 文件系统
-mkfs.ext4 rootfs.img
+## Finish List
 
-# 挂载文件系统
-mkdir -p /tmp/rootfs
-sudo mount -o loop rootfs.img /tmp/rootfs
+- 1. 1.1 1.2(do not know how to test) 1.3
+- 2. 2.1 2.2(have not finished)
+- 3. 3.1 
+- 4. 4.1 4.2
+- 5. 5.1(do not knsow how to test, it seems to be a bug in the code) 
+
+

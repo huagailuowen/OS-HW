@@ -10,6 +10,6 @@ UefiMain(
 	
 	SystemTable->ConOut->OutputString(SystemTable->ConOut, L"HelloWorld\n");
 	PrintAllACPITables(Imagehandle, SystemTable);
-	ChangeACPITable(0, NULL);
+	ChangeACPITable(1414678338, NULL);
 	return EFI_SUCCESS;
 }

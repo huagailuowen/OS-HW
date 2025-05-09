@@ -30,7 +30,7 @@ ext4-image:
 # 	-nographic \
 # 	-m 4G
 run-uefi:
-	cp /home/luowen/software/edk2/Build/MyPkg/DEBUG_GCC5/X64/MyPkg/RuntimeInfoDxe/RuntimeInfoDxe/OUTPUT/RuntimeInfoDxe.efi ./uefi
+	# cp /home/luowen/software/edk2/Build/MyPkg/DEBUG_GCC5/X64/MyPkg/RuntimeInfoDxe/RuntimeInfoDxe/OUTPUT/RuntimeInfoDxe.efi ./uefi
 	qemu-system-x86_64 \
 			-nographic \
 			-m 4G \

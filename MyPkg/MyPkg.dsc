@@ -35,6 +35,7 @@
     UefiRuntimeLib|MdePkg/Library/UefiRuntimeLib/UefiRuntimeLib.inf
 [Components]
     # MyPkg/PrintAllACPITables.inf
+    # MyPkg/ChangeAcpiTable.inf
     MyPkg/RuntimeInfoDxe/RuntimeInfoDxe.inf
 
 # [Guids]

@@ -58,12 +58,13 @@ RuntimeInfoEntryPoint (
   EFI_STATUS Status;
   CHAR8 *Info;
   CHAR8 *RuntimeInfo;
+  UNUSED(RuntimeInfo);
   UINTN Size;
   
   DEBUG ((DEBUG_INFO, "RuntimeInfoDxe: Starting initialization\n"));
   
   // 使用运行时内存分配字符串，这样在运行时也可以访问
-  Info = AllocateRuntimePool(AsciiStrSize("Hardware Info from Runtime Protocol"));
+  Info = AllocateRuntimePool(AsciiStrSize("Hardware Info from Runtime Protocol haha "));
   if (Info == NULL) {
     DEBUG ((DEBUG_ERROR, "Failed to allocate runtime memory for Info\n"));
     return EFI_OUT_OF_RESOURCES;

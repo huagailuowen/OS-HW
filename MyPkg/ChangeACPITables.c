@@ -53,7 +53,11 @@ EFIAPI ChangeACPITable (
             Xsdt = (EFI_ACPI_DESCRIPTION_HEADER *)(UINTN)Root->XsdtAddress;
             if(Xsdt->Signature == Signature) {
                 // change the table
-                CopyMem(Xsdt, NewTable, NewTable->Length);
+                if(NewTable == NULL) {
+                    ZeroMem(Xsdt->OemId, sizeof(Xsdt->OemId));
+                }else{
+                    CopyMem(Xsdt, NewTable, NewTable->Length);
+                }
                 UpdateAcpiChecksum(Xsdt);
             }
             Print(L"XSDT at 0x%p\n", Xsdt);
@@ -71,7 +75,13 @@ EFIAPI ChangeACPITable (
                 EFI_ACPI_DESCRIPTION_HEADER *Table = (EFI_ACPI_DESCRIPTION_HEADER *)(UINTN)EntryPtr[j];
                 if(Table->Signature == Signature) {
                     // change the table
-                    CopyMem(Table, NewTable, NewTable->Length);
+                    
+                    Print(L"Checksum: 0x%02x\n", Xsdt->Checksum);
+                    if(NewTable == NULL) {
+                        ZeroMem(Table->OemId, sizeof(Table->OemId));
+                    }else{
+                        CopyMem(Table, NewTable, NewTable->Length);
+                    }
                     UpdateAcpiChecksum(Table);
                 }
                 Print(L"Table %d at 0x%p\n", j, Table);
@@ -88,7 +98,11 @@ EFIAPI ChangeACPITable (
                     Dsdt = (EFI_ACPI_DESCRIPTION_HEADER *)(UINTN)Fadt->Dsdt;
                     if(Dsdt->Signature == Signature) {
                         // change the table
-                        CopyMem(Dsdt, NewTable, NewTable->Length);
+                        if(NewTable == NULL) {
+                            ZeroMem(Dsdt->OemId, sizeof(Dsdt->OemId));
+                        }else{
+                            CopyMem(Dsdt, NewTable, NewTable->Length);
+                        }
                         UpdateAcpiChecksum(Dsdt);
                     }
                     Print(L"DSDT at 0x%p\n", Dsdt);
@@ -101,7 +115,11 @@ EFIAPI ChangeACPITable (
                     Facs = (EFI_ACPI_DESCRIPTION_HEADER *)(UINTN)Fadt->FirmwareCtrl;
                     if(Facs->Signature == Signature) {
                         // change the table
-                        CopyMem(Facs, NewTable, NewTable->Length);
+                        if(NewTable == NULL) {
+                            ZeroMem(Facs->OemId, sizeof(Facs->OemId));
+                        }else{
+                            CopyMem(Facs, NewTable, NewTable->Length);
+                        }
                         UpdateAcpiChecksum(Facs);
                     }
                     Print(L"FACS at 0x%p\n", Facs);
