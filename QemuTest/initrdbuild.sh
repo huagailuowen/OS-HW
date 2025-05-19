@@ -94,10 +94,10 @@ cd ./initramfs_work
 # cp  /home/luowen/syshw/Net/Task1/client extracted/testfiles
 # cp  /home/luowen/syshw/Net/Task1/server extracted/testfiles
 
-# copy_required_libraries /home/luowen/syshw/Syscall/Task2/test_vdso  ./extracted
+# copy_required_libraries /home/luowen/syshw/Syscall/Task2/test_vdso_all  ./extracted
 
 
-cp /home/luowen/syshw/Syscall/Task2/test_vdso extracted/testfiles/
+cp /home/luowen/syshw/Syscall/Task2/test_vdso_all extracted/testfiles/
 # 回到解压目录
 cd extracted
 
