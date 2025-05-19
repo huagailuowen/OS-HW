@@ -2440,6 +2440,14 @@ static __latent_entropy struct task_struct *copy_process(
 
 	copy_oom_score_adj(clone_flags, p);
 
+	//--------------------my code--------------------
+	/* 
+     * 在函数返回前，添加对 update_vtask_page 的调用 
+     */
+    if (p && p->mm) {
+        update_vtask_page(p);
+    }
+	//--------------------my code--------------------
 	return p;
 
 bad_fork_cancel_cgroup:
