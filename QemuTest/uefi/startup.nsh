@@ -1,4 +1,4 @@
-#acpi.efi
+hello.efi
 fs0:
 load -nc RuntimeInfoDxe.efi
 echo "Waiting for RuntimeInfoDxe to initialize..."

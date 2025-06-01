@@ -90,14 +90,15 @@ cd ./initramfs_work
 # cd extracted
 # cat ../initramfs.cpio | cpio -idmv
 # cd ..
-# cp -r ../../FS/Task1/test_read extracted/testfiles
+cp -r ../../FS/Task1/test_read extracted/testfiles
 # cp  /home/luowen/syshw/Net/Task1/client extracted/testfiles
 # cp  /home/luowen/syshw/Net/Task1/server extracted/testfiles
 
 # copy_required_libraries /home/luowen/syshw/Syscall/Task2/test_vdso_all  ./extracted
 
 
-cp /home/luowen/syshw/Syscall/Task2/test_vdso_all extracted/testfiles/
+# cp /home/luowen/syshw/Syscall/Task2/test_vdso_all extracted/testfiles/
+
 # 回到解压目录
 cd extracted
 

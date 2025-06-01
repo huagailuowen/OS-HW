@@ -29,8 +29,9 @@ ext4-image:
 # 	-append "init=/init root=/dev/sda rw console=ttyS0 nokaslr" \
 # 	-nographic \
 # 	-m 4G
+# cp /home/luowen/software/edk2/Build/MyPkg/DEBUG_GCC5/X64/MyPkg/RuntimeInfoDxe/RuntimeInfoDxe/OUTPUT/RuntimeInfoDxe.efi ./uefi
 run-uefi:
-	# cp /home/luowen/software/edk2/Build/MyPkg/DEBUG_GCC5/X64/MyPkg/RuntimeInfoDxe/RuntimeInfoDxe/OUTPUT/RuntimeInfoDxe.efi ./uefi
+	cp -f /home/luowen/software/edk2/Build/Mde/RELEASE_GCC5/X64/MyPkg/My/OUTPUT/hello.efi ./uefi/hello.efi 
 	qemu-system-x86_64 \
 			-nographic \
 			-m 4G \
