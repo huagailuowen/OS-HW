@@ -11,7 +11,7 @@ qemu:
 		-nographic \
 		-m 4G \
 		-append "init=/init console=ttyS0"
-
+#text file attributes
 qemu-ext4:
 	qemu-system-x86_64 \
     -kernel $(LINUX_DIR)/arch/x86/boot/bzImage \

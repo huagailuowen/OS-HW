@@ -96,10 +96,12 @@ EFIAPI ChangeACPITable (
 
                     EFI_ACPI_DESCRIPTION_HEADER *Dsdt;
                     Dsdt = (EFI_ACPI_DESCRIPTION_HEADER *)(UINTN)Fadt->Dsdt;
+                    // Print(L"-----------------------------%d %d\n",Dsdt->Signature,Signature);
                     if(Dsdt->Signature == Signature) {
+                    // if(1){
                         // change the table
                         if(NewTable == NULL) {
-                            ZeroMem(Dsdt->OemId, sizeof(Dsdt->OemId));
+                            ZeroMem(Dsdt->OemId, 6);
                         }else{
                             CopyMem(Dsdt, NewTable, NewTable->Length);
                         }
