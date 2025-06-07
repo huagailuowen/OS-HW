@@ -3,32 +3,38 @@
 # 创建ramfs挂载点
 mkdir -p /mnt/ramfs
 
-# 在测试脚本中确保使用ramfs
+# 挂载ramfs
 mount -t ramfs -o size=10M none /mnt/ramfs
 
-# 检查挂载类型
-mount | grep ramfs
-cat /proc/mounts | grep ramfs
-
+export backup_dir="/var/backup/ramfs"
 # 在ramfs中创建测试文件
-echo "这是ramfs测试文件内容" > /mnt/ramfs/test.txt
-echo "另一个测试文件" > /mnt/ramfs/test2.txt
 
-# 调用sync触发fsync
-echo "开始同步文件..."
-sync
+echo "这是ramfs测试文件内容" > /tmp/source_content.txt
+dd if=/tmp/source_content.txt of=/mnt/ramfs/test.txt conv=fsync 2>/dev/null
+cat $backup_dir/test.txt
+# 或者使用Python等语言显式调用fsync
+# python3 -c '
+# import os
+# f = open("/mnt/ramfs/test.txt", "a")
+# os.fsync(f.fileno())
+# f.close()
+# print("fsync调用完成")
+# '
 
-# 检查备份目录是否创建
+
+echo "这是另一个ramfs测试文件内容" > /tmp/source_content.txt
+dd if=/tmp/source_content.txt of=/mnt/ramfs/test2.txt conv=fsync 2>/dev/null
+cat $backup_dir/test2.txt
+# 对第二个文件也调用fsync
+# python3 -c '
+# import os
+# f = open("/mnt/ramfs/test2.txt", "a")
+# os.fsync(f.fileno())
+# f.close()
+# print("fsync调用完成")
+# '
+
+# 检查备份目录
 echo "检查备份目录..."
-ls -la /var/backup/
-
-# 检查备份文件
-echo "检查备份文件..."
-ls -la /var/backup/ramfs/
-
-# 显示备份文件内容
-echo "备份文件内容："
-cat /var/backup/ramfs/test.txt 2>/dev/null || echo "未找到备份文件"
-cat /var/backup/ramfs/test2.txt 2>/dev/null || echo "未找到备份文件"
-
-echo "测试完成"
+ls -la /var/backup/ 2>/dev/null || echo "备份目录不存在"
+ls -la /var/backup/ramfs/ 2>/dev/null || echo "ramfs备份目录不存在"

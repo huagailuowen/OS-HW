@@ -78,9 +78,9 @@ void update_vtask_page(struct task_struct *task)
     struct page *start_page = virt_to_page((void*)first_page);
 
     // 对超出预期的超大结构加警告
-    if (npages > 5) {
-        pr_warn("vtask: task_struct crosses %d pages (>5), user mapping may be incomplete!\n", npages);
-    }
+    // if (npages > 5) {
+    //     pr_warn("vtask: task_struct crosses %d pages (>5), user mapping may be incomplete!\n", npages);
+    // }
     
     /* 计算 task_struct 在页内的偏移 */
     unsigned long offset = task_addr & ~PAGE_MASK;
@@ -443,8 +443,8 @@ static int map_vdso(const struct vdso_image *image, unsigned long addr)
         /* 将 vtask 基址保存在 mm_context 中 */
         current->mm->context.vtask_base = (void __user *)vtask_addr;
     }
-	pr_info("vtask: mapped at 0x%lx (size: %lu), vvar at 0x%lx, vdso text at 0x%lx\n",
-		vtask_addr, vtask_size, vvar_addr, text_start);
+	// pr_info("vtask: mapped at 0x%lx (size: %lu), vvar at 0x%lx, vdso text at 0x%lx\n",
+	// 	vtask_addr, vtask_size, vvar_addr, text_start);
 
 up_fail:
     mmap_write_unlock(mm);

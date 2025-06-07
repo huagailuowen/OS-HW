@@ -90,6 +90,8 @@ static int ramfs_backup_fsync(struct file *file, loff_t start, loff_t end, int d
     argv[2] = path_ptr;  /* 使用d_path返回的正确路径指针 */
     argv[3] = backup_dir;
     argv[4] = NULL;
+    printk(KERN_INFO "ramfs: 准备复制文件 %s 到 %s\n", 
+           path_ptr, backup_dir);
     
     /* 调用用户空间命令执行复制 */
     ret = call_usermodehelper(argv[0], argv, envp, UMH_WAIT_PROC);
