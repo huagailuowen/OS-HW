@@ -5,6 +5,8 @@ filter packets based on the minimum and maximum size of the packet.
 
 ### Usage
 ```bash
+sudo ./tcpdump -i any "host www.baidu.com" -g 10-1000
+
 tcpdump -g min-max
 ```
 
@@ -29,5 +31,7 @@ gcc client.c -o client
 ./client
 
 cat /proc/socket_fairness
+
+
 
 ```

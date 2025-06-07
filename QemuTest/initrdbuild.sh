@@ -90,7 +90,8 @@ cd ./initramfs_work
 # cd extracted
 # cat ../initramfs.cpio | cpio -idmv
 # cd ..
-cp -r ../../FS/Task1/test_read extracted/testfiles
+# cp -r ../../FS/Task1/test_read extracted/testfiles
+cp /home/luowen/syshw/Memory/Task2/test.sh extracted/testfiles/5_2
 # cp  /home/luowen/syshw/Net/Task1/client extracted/testfiles
 # cp  /home/luowen/syshw/Net/Task1/server extracted/testfiles
 
