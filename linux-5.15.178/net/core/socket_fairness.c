@@ -95,8 +95,6 @@ bool check_socket_allocation_allowed(pid_t tid)
     if (!stats)
         return true;  /* 如果无法跟踪，则允许 */
     
-    // printk(KERN_INFO "Check Allow\n");
-    // return true;  /* 默认允许 */
     /* 检查是否超过每线程套接字限制 */
     if (atomic_read(&stats->active_sockets) >= socket_fairness_mgr.max_sockets_per_thread ||
         atomic_read(&stats->pending_requests) >= socket_fairness_mgr.max_pending_per_thread) {
@@ -107,6 +105,27 @@ bool check_socket_allocation_allowed(pid_t tid)
     }
     printk(KERN_INFO "Check Allow=%d\n", allowed);
     return allowed;
+}
+
+/* 新增：检查是否需要降低传输优先级 */
+bool should_throttle_transmission(pid_t tid)
+{
+    struct thread_socket_stats *stats;
+    
+    if (!socket_fairness_mgr.fairness_enabled)
+        return false;
+    
+    stats = get_thread_socket_stats(tid, false);
+    if (!stats)
+        return false;
+    
+    /* 当活跃socket数量超过限制时，启用传输限制 */
+    if (atomic_read(&stats->active_sockets) > socket_fairness_mgr.max_sockets_per_thread) {
+        atomic_inc(&stats->throttled_count);
+        return true;
+    }
+    
+    return false;
 }
 
 /* 更新线程的套接字流量统计 */

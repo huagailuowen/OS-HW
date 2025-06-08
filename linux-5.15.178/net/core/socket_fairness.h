@@ -34,6 +34,7 @@ int socket_fairness_init(void);
 void socket_fairness_exit(void);
 struct thread_socket_stats *get_thread_socket_stats(pid_t tid, bool create);
 bool check_socket_allocation_allowed(pid_t tid);
+bool should_throttle_transmission(pid_t tid);
 void update_socket_traffic(pid_t tid, size_t sent, size_t received);
 void register_socket_for_thread(pid_t tid);
 void unregister_socket_for_thread(pid_t tid);

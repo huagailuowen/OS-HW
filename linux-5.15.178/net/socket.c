@@ -717,9 +717,20 @@ static int __sock_sendmsg(struct socket *sock, struct msghdr *msg)
 {
 	// printk(KERN_INFO "CheckP3\n");
 	//------------------------my code-------------------
-	if (!check_socket_allocation_allowed(current->pid)) {
-		return -EAGAIN;
+	
+	/* 检查是否需要降低传输优先级而不是完全禁止 */
+	if (should_throttle_transmission(current->pid)) {
+		/* 降低socket优先级 */
+		if (sock->sk) {
+			sock->sk->sk_priority = 0;  /* 设置为最低优先级 */
+		}
+		
+		/* 添加小的延迟来降低传输速度 */
+		msleep(100);  /* 100毫秒延迟 */
+
+		printk(KERN_INFO "Socket transmission throttled for pid %d\n", current->pid);
 	}
+	
 	//------------------------my code-------------------
 
 	int err = security_socket_sendmsg(sock, msg, msg_data_left(msg));
