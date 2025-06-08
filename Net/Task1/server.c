@@ -18,10 +18,40 @@ int main() {
     bind(server_fd, (struct sockaddr *)&addr, sizeof(addr));
     listen(server_fd, 1);
 
-    client_fd = accept(server_fd, NULL, NULL);
-    recv(client_fd, buf, sizeof(buf), 0);
-    printf("Received: %s\n", buf);
-    close(client_fd);
+    printf("Server listening on port 12345...\n");
+    
+    while (1) {
+        client_fd = accept(server_fd, NULL, NULL);
+        if (client_fd < 0) {
+            perror("accept failed");
+            continue;
+        }
+        
+        printf("Client connected, fd=%d\n", client_fd);
+        
+        int bytes_received = recv(client_fd, buf, sizeof(buf), 0);
+        if (bytes_received > 0) {
+            buf[bytes_received] = '\0';  // Null-terminate
+            printf("Received %d bytes: %s\n", bytes_received, buf);
+            
+            // 发送回复确认收到数据
+            const char *reply = "ACK";
+            send(client_fd, reply, strlen(reply), 0);
+        } else if (bytes_received == 0) {
+            printf("Client disconnected\n");
+        } else {
+            perror("recv failed");
+        }
+        
+        // 保持连接打开一段时间，让客户端有时间处理
+        sleep(2);
+        
+        close(client_fd);
+        printf("Connection closed\n");
+        
+        // 继续处理下一个连接，支持多轮测试
+    }
+    
     close(server_fd);
     return 0;
 }

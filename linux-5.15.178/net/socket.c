@@ -715,7 +715,7 @@ static inline int sock_sendmsg_nosec(struct socket *sock, struct msghdr *msg)
 
 static int __sock_sendmsg(struct socket *sock, struct msghdr *msg)
 {
-	printk(KERN_INFO "CheckP3\n");
+	// printk(KERN_INFO "CheckP3\n");
 	//------------------------my code-------------------
 	if (!check_socket_allocation_allowed(current->pid)) {
 		return -EAGAIN;
@@ -723,13 +723,14 @@ static int __sock_sendmsg(struct socket *sock, struct msghdr *msg)
 	//------------------------my code-------------------
 
 	int err = security_socket_sendmsg(sock, msg, msg_data_left(msg));
-	printk(KERN_INFO "CheckP5\n");
+	// printk(KERN_INFO "CheckP5\n");
 	if (err)
 		return err;
-	printk(KERN_INFO "CheckP6\n");
+	// printk(KERN_INFO "CheckP6\n");
 	size_t bytes = iov_iter_count(&msg->msg_iter);
 	int ret = sock_sendmsg_nosec(sock, msg);
-
+	// printk(KERN_INFO "Bytes to send: %zu\n", bytes);
+	// printk(KERN_INFO "Return value: %d\n", ret);
 	if (ret >= 0 && bytes > 0) {
 		update_socket_traffic(current->pid, bytes, 0);
 	}
@@ -1000,7 +1001,7 @@ static inline int sock_recvmsg_nosec(struct socket *sock, struct msghdr *msg,
  */
  int sock_recvmsg(struct socket *sock, struct msghdr *msg, int flags)
  {
-	printk(KERN_INFO "CheckP4\n");
+	// printk(KERN_INFO "CheckP4\n");
 	 //------------------------my code-------------------
 	 if (!check_socket_allocation_allowed(current->pid)) {
 		 return -EAGAIN;

@@ -23,8 +23,8 @@ int socket_fairness_init(void)
     INIT_LIST_HEAD(&socket_fairness_mgr.threads);
     
     /* 默认配置值 */
-    socket_fairness_mgr.max_sockets_per_thread = 100;
-    socket_fairness_mgr.max_pending_per_thread = 50;
+    socket_fairness_mgr.max_sockets_per_thread = 10;
+    socket_fairness_mgr.max_pending_per_thread = 5;
     socket_fairness_mgr.throttle_threshold = 1000;
     socket_fairness_mgr.fairness_enabled = true;
     
@@ -95,8 +95,8 @@ bool check_socket_allocation_allowed(pid_t tid)
     if (!stats)
         return true;  /* 如果无法跟踪，则允许 */
     
-
-    return true;  /* 默认允许 */
+    // printk(KERN_INFO "Check Allow\n");
+    // return true;  /* 默认允许 */
     /* 检查是否超过每线程套接字限制 */
     if (atomic_read(&stats->active_sockets) >= socket_fairness_mgr.max_sockets_per_thread ||
         atomic_read(&stats->pending_requests) >= socket_fairness_mgr.max_pending_per_thread) {
@@ -105,18 +105,18 @@ bool check_socket_allocation_allowed(pid_t tid)
         stats->last_throttled = jiffies;
         allowed = false;
     }
-    
+    printk(KERN_INFO "Check Allow=%d\n", allowed);
     return allowed;
 }
 
 /* 更新线程的套接字流量统计 */
 void update_socket_traffic(pid_t tid, size_t sent, size_t received)
 {
-    printk(KERN_INFO "CheckP1\n");
+    // printk(KERN_INFO "CheckP1\n");
     struct thread_socket_stats *stats = get_thread_socket_stats(tid, true);
     if (!stats)
         return;
-    printk(KERN_INFO "CheckP2\n");
+    // printk(KERN_INFO "CheckP2\n");
     
     atomic_add(sent, &stats->total_bytes_sent);
     atomic_add(received, &stats->total_bytes_received);

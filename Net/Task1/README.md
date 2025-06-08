@@ -27,9 +27,11 @@ echo "hello" | nc 127.0.0.1 12345&
 gcc server.c -o server
 gcc client.c -o client
 
-./server &
-./client
 
+
+ip link set lo up
+./testfiles/server &
+./testfiles/client
 cat /proc/socket_fairness
 
 
