@@ -1,0 +1,1 @@
+cmd_/home/luowen/syshw/Syscall/kv_call/testmodule.ko := ld -r -m elf_x86_64 -z noexecstack --no-warn-rwx-segments --build-id=sha1  -T scripts/module.lds -o /home/luowen/syshw/Syscall/kv_call/testmodule.ko /home/luowen/syshw/Syscall/kv_call/testmodule.o /home/luowen/syshw/Syscall/kv_call/testmodule.mod.o;  true

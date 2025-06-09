@@ -1,0 +1,1 @@
+cmd_/home/luowen/syshw/Syscall/kv_call/testmodule.o := ld -m elf_x86_64 -z noexecstack --no-warn-rwx-segments   -r -o /home/luowen/syshw/Syscall/kv_call/testmodule.o /home/luowen/syshw/Syscall/kv_call/test3-kernel-module.o

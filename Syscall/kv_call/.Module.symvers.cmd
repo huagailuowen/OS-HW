@@ -1,0 +1,1 @@
+cmd_/home/luowen/syshw/Syscall/kv_call/Module.symvers := sed 's/\.ko$$/\.o/' /home/luowen/syshw/Syscall/kv_call/modules.order | scripts/mod/modpost    -o /home/luowen/syshw/Syscall/kv_call/Module.symvers -e -i Module.symvers   -T -

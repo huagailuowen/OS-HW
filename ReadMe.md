@@ -8,6 +8,6 @@ open the QemuTest directory and run make code to build the test environment.
 - 2. 2.1 2.2
 - 3. 3.1 3.2
 - 4. 4.1 4.2
-- 5. 5.1(second part do not knsow how to test, it seems to be a bug in the code) , 5.2
+- 5. 5.1 5.2
 
 one PR in kv_store test

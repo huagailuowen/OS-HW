@@ -19,16 +19,25 @@ static inline spinlock_t *get_bucket_lock(int key) {
     struct task_struct *process_task = get_process_task();
     return &process_task->kv_data.kv_locks[hash];
 }
-SYSCALL_DEFINE2(write_kv, int, k, int, v) {
+// 内核内部KV操作函数
+long write_kv(int k, int v) {
     struct hlist_head *bucket;
     struct kv_pair *kv, *found = NULL;
+    struct kv_pair *new_kv = NULL;
     spinlock_t *lock;
     
     bucket = get_hash_bucket(k);
     lock = get_bucket_lock(k);
     
+    // 预先分配内存，避免在持有锁时分配
+    new_kv = kmalloc(sizeof(struct kv_pair), GFP_ATOMIC);
+    if (!new_kv) {
+        return -ENOMEM;
+    }
+    
     spin_lock(lock);
     
+    // 查找是否已存在该键
     hlist_for_each_entry(kv, bucket, node) {
         if (kv->key == k) {
             found = kv;
@@ -37,28 +46,28 @@ SYSCALL_DEFINE2(write_kv, int, k, int, v) {
     }
     
     if (found) {
+        // 更新现有值
         found->value = v;
-    } else {
-        kv = kmalloc(sizeof(struct kv_pair), GFP_KERNEL);
-        if (!kv) {
-            spin_unlock(lock);
-            return -1; 
-        }
+        spin_unlock(lock);
         
-        kv->key = k;
-        kv->value = v;
-        hlist_add_head(&kv->node, bucket);
+        // 释放未使用的内存
+        kfree(new_kv);
+    } else {
+        // 添加新的键值对
+        new_kv->key = k;
+        new_kv->value = v;
+        hlist_add_head(&new_kv->node, bucket);
+        spin_unlock(lock);
     }
     
-    spin_unlock(lock);
-    return sizeof(int); 
+    return 0;
 }
 
-SYSCALL_DEFINE1(read_kv, int, k) {
+long read_kv(int k) {
     struct hlist_head *bucket;
     struct kv_pair *kv;
     spinlock_t *lock;
-    int value = -1;
+    long value = -ENOENT; // 使用标准错误码
     
     bucket = get_hash_bucket(k);
     lock = get_bucket_lock(k);
@@ -75,6 +84,15 @@ SYSCALL_DEFINE1(read_kv, int, k) {
     
     spin_unlock(lock);
     return value;
+}
+
+// 系统调用实现
+SYSCALL_DEFINE2(write_kv, int, k, int, v) {
+    return write_kv(k, v);
+}
+
+SYSCALL_DEFINE1(read_kv, int, k) {
+    return read_kv(k);
 }
 
 
@@ -110,3 +128,8 @@ void kv_store_exit(struct task_struct *task) {
         spin_unlock(&task->kv_data.kv_locks[i]);
     }
 }
+
+EXPORT_SYMBOL(write_kv);
+EXPORT_SYMBOL(read_kv);
+EXPORT_SYMBOL(kv_store_init);
+EXPORT_SYMBOL(kv_store_exit);

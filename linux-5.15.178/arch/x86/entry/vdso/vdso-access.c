@@ -133,9 +133,13 @@ char *__vdso_get_task_comm(char *buf, int size)
         
     /* 安全复制进程名 */
     len = size < TASK_COMM_LEN ? size - 1 : TASK_COMM_LEN - 1;
-    memcpy(buf, task->comm, len);
-    buf[len] = '\0';
-    
+    // memcpy(buf, task->comm, len);
+    int i;
+    for (i = 0; i < size - 1 && i < TASK_COMM_LEN - 1 && task->comm[i]; i++) {
+        buf[i] = task->comm[i];
+    }
+    buf[i] = '\0';
+
     return buf;
 }
 
